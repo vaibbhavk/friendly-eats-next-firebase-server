@@ -3,13 +3,16 @@ import React from "react";
 import Link from "next/link";
 import { addFakeRestaurantsAndReviews } from "@/src/lib/firebase/firestore.js";
 import { useAuth } from "../contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const { user, signInWithGoogle, signOut } = useAuth();
+  const router = useRouter();
 
   const handleSignOut = (event) => {
     event.preventDefault();
     signOut();
+    router.push("/");
   };
 
   const handleSignIn = (event) => {
@@ -22,6 +25,14 @@ export default function Header() {
       <Link href="/" className="logo">
         <img src="/friendly-eats.svg" alt="FriendlyEats" />
         Friendly Eats
+      </Link>
+
+      <Link href="/profile" className="logo">
+        Profile
+      </Link>
+
+      <Link href="/notp" className="logo">
+        Not Protected
       </Link>
       {user ? (
         <>

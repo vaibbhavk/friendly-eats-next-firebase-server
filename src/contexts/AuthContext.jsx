@@ -84,13 +84,14 @@ export function AuthProvider({ children, initialUser }) {
     try {
       setLoading(true); // Indicate loading state
       await auth.signOut(); // Sign out from Firebase first
-      setUser(null);
-      setIdToken(null);
-      setLoading(false);
     } catch (error) {
       console.error("Error signing out:", error);
       setLoading(false); // Reset loading on error
       throw error; // Propagate error to caller
+    } finally {
+      setUser(null);
+      setIdToken(null);
+      setLoading(false);
     }
   }
 
