@@ -15,19 +15,20 @@ export async function middleware(request) {
     return NextResponse.next();
   }
 
-  // Get the idToken from the Authorization header
-  const idToken = request.headers.get("Authorization")?.split("Bearer ")[1];
-
-  if (!idToken) {
-    // Redirect to login if no token is provided
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
   try {
+    // Get the idToken from the Authorization header
+    const idToken = request.headers.get("Authorization")?.split("Bearer ")[1];
+
+    if (!idToken) {
+      // Redirect to login if no token is provided
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
     // Verify Firebase token and check if user is logged in
     const { currentUser: firebaseUser } = await getAuthenticatedAppForUser(
       idToken
     );
+
     if (!firebaseUser) {
       // Redirect to login if token is invalid or user is not authenticated
       return NextResponse.redirect(new URL("/", request.url));
